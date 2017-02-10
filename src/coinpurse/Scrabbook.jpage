@@ -1,0 +1,3 @@
+Syntax error on token "(", ) expected// test some coin methods
+Coin c = new Coin(10);
+System.out.println(c.getValue( ));
