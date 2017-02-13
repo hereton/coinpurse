@@ -1,9 +1,7 @@
 package coinpurse;
 
-// TODO fix this Javadoc. It should be written as a COMPLETE SENTENCE WITH PERIOD.
 /**
- * a coin with a monetary value and currency. Value and Currency cannot be
- * changed.
+ * a coin with a monetary value and currency. Default currency is Bath.
  * 
  * 
  * @author Totsapon menkul.
@@ -57,31 +55,53 @@ public class Coin implements Comparable<Coin> {
 		return this.currency;
 	}
 
-	// TODO Write an equals(Object) method.
+	/**
+	 * check coins that have the same value and currency or not.
+	 * 
+	 * @param obj
+	 *            is a coin to check.
+	 * 
+	 * @return True if other object has the same value and currency, False if
+	 *         it's not.
+	 * 
+	 */
 	public boolean equals(Object obj) {
 		if (obj == null)
 			return false;
 		if (this.getClass() != obj.getClass())
 			return false;
 		Coin other = (Coin) (obj);
-		return this.value == other.value;
+		return this.value == other.value && this.currency == other.currency;
 
 	}
 
-	// TODO Write a compareTo method and implement Comparable.
-
+	/**
+	 * return a String explanation of coin
+	 * 
+	 * @return String value and currency of coin.
+	 */
 	public String toString() {
 		return this.value + "-" + this.currency;
 	}
 
+	/**
+	 * compare a coin with another coin.
+	 * 
+	 * @param other
+	 *            - Object other coin to compare.
+	 * 
+	 * @return -1 if this coin has less value than other coin. 0 if it's equal.
+	 *         1 if this coin has more value than other coin.
+	 */
 	@Override
 	public int compareTo(Coin other) {
 		if (other == null)
 			return -1;
+		/**
+		 * Copied code from other student that has taught me what is Math.signum
+		 * is, tried to understand by myself.
+		 */
 		return (int) Math.signum(other.value - this.value);
 	}
 
-	// TODO Write good Javadoc comments on all methods.
-
 }
-// TODO remove the TODO comments after you complete them! Including this one!
