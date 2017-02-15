@@ -81,7 +81,7 @@ public class Coin implements Comparable<Coin> {
 	 * @return String value and currency of coin.
 	 */
 	public String toString() {
-		return this.value + "-" + this.currency;
+		return this.value + " " + this.currency;
 	}
 
 	/**
@@ -97,10 +97,6 @@ public class Coin implements Comparable<Coin> {
 	public int compareTo(Coin other) {
 		if (other == null)
 			return -1;
-		/**
-		 * Copied code from other student that has taught me what is Math.signum
-		 * is, tried to understand by myself.
-		 */
 		return (int) Math.signum(other.value - this.value);
 	}
 

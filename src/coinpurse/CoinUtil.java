@@ -21,15 +21,14 @@ public class CoinUtil {
 	 *         the requested currency.
 	 */
 	public static List<Coin> filterByCurrency(final List<Coin> coinlist, String currency) {
-
-		return null; // return a list of coin references copied from coinlist
-	}
-
-	class CompareByCurrency implements Comparator<Coin> {
-		@Override
-		public int compare(Coin c1, Coin c2) {
-			return c1.getCurrency().compareTo(c2.getCurrency());
+		List<Coin> filteredCoin = new ArrayList<>();
+		for (Coin pick : coinlist) {
+			if (pick.getCurrency().equals(currency)) {
+				filteredCoin.add(pick);
+			}
 		}
+
+		return filteredCoin; //
 	}
 
 	/**
@@ -37,17 +36,21 @@ public class CoinUtil {
 	 * will be ordered by currency.
 	 * 
 	 * @param coins
-	 *            is a List of Coin objects we want to sort.
-	 *
-	 *            TODO: 1. Write a Comparator<Coin> (you can write the class at
-	 *            the end of this file. Declare it as "class CompareByCurrency"
-	 *            without the "public"). You can also write Comparator as an
-	 *            anonymous class, if you know how. The compare method should
-	 *            order coins by currency. 2. Create a comparator instance and
-	 *            use it to sort the coins.
+	 *            is a List of Coin objects we want to sort. the end of this
+	 *            file. Declare it as "class CompareByCurrency" without the
+	 *            "public"). You can also write Comparator as an anonymous
+	 *            class, if you know how. The compare method should order coins
+	 *            by currency. 2. Create a comparator instance and use it to
+	 *            sort the coins.
 	 */
 	public static void sortByCurrency(List<Coin> coins) {
-
+		Collections.sort(coins);
+		Collections.sort(coins, new Comparator<Coin>() {
+			@Override
+			public int compare(Coin o1, Coin o2) {
+				return o1.getCurrency().compareTo(o2.getCurrency());
+			}
+		});
 	}
 
 	/**
@@ -61,7 +64,18 @@ public class CoinUtil {
 	 * Hint: this is easy if you sort the coins by currency first. :-)
 	 */
 	public static void sumByCurrency(List<Coin> coins) {
-
+		double sum = 0;
+		sortByCurrency(coins);
+		for (int i = 0; i < coins.size() - 1; i++) {
+			sum = sum + coins.get(i).getValue();
+			if (!coins.get(i).getCurrency().equals(coins.get(i + 1).getCurrency())) {
+				// System.out.println(sum + " " + coins.get(i).getCurrency());
+				System.out.print(new Coin(sum, coins.get(i).getCurrency()) + " ");
+				sum = 0;
+			}
+		}
+		sum = sum + coins.get(coins.size() - 1).getValue();
+		System.out.print(new Coin(sum, coins.get(coins.size() - 1).getCurrency()) + " ");
 	}
 
 	/**
