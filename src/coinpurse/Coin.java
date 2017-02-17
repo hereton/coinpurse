@@ -6,7 +6,7 @@ package coinpurse;
  * 
  * @author Totsapon menkul.
  */
-public class Coin implements Comparable<Coin> {
+public class Coin implements  Valuable {
 	public static final String DEFAULT_CURRENCY = "Baht";
 	/** Value of the coin. */
 	private final double value;
@@ -71,7 +71,7 @@ public class Coin implements Comparable<Coin> {
 		if (this.getClass() != obj.getClass())
 			return false;
 		Coin other = (Coin) (obj);
-		return this.value == other.value && this.currency == other.currency;
+		return this.value == other.value && this.currency.equals(other.currency);
 
 	}
 
@@ -82,22 +82,6 @@ public class Coin implements Comparable<Coin> {
 	 */
 	public String toString() {
 		return this.value + " " + this.currency;
-	}
-
-	/**
-	 * compare a coin with another coin.
-	 * 
-	 * @param other
-	 *            - Object other coin to compare.
-	 * 
-	 * @return -1 if this coin has less value than other coin. 0 if it's equal.
-	 *         1 if this coin has more value than other coin.
-	 */
-	@Override
-	public int compareTo(Coin other) {
-		if (other == null)
-			return -1;
-		return (int) Math.signum(other.value - this.value);
 	}
 
 }

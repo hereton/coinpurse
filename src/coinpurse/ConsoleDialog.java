@@ -56,7 +56,7 @@ public class ConsoleDialog {
 	 * Show result of success or failure.
 	 */
 	public void depositDialog() {
-		System.out.print("Enter value of coin(s) to deposit on one line [eg: 5 5 1]: ");
+		System.out.print("Enter value of coin(s) if the user inputs a value of 20 or more, create a BankNote. to deposit on one line [eg: 5 5 1]: ");
 		String inline = console.nextLine();
 		// parse input line into numbers
 		Scanner scanline = new Scanner(inline);
@@ -79,7 +79,7 @@ public class ConsoleDialog {
 		System.out.print("How much to withdraw? ");
 		if (console.hasNextDouble()) {
 			double amount = console.nextDouble();
-			Coin[] coins = purse.withdraw(amount);
+			Valuable[] coins = purse.withdraw(amount);
 			if (coins == null)
 				System.out.printf("Sorry, couldn't withdraw %g %s\n", amount, CURRENCY);
 			else {
