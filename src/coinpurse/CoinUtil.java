@@ -1,8 +1,6 @@
 package coinpurse;
 
 import java.util.*;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 /**
  * Some Coin utility methods for practice using Lists and Comparator.
@@ -128,8 +126,8 @@ public class CoinUtil {
 	}
 
 	/** Print the list on the console, on one line. */
-	public static void printList(List items, String separator) {
-		Iterator iter = items.iterator();
+	public static void printList(List<Valuable> items, String separator) {
+		Iterator<Valuable> iter = items.iterator();
 		while (iter.hasNext()) {
 			System.out.print(iter.next());
 			if (iter.hasNext())

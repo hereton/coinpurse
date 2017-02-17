@@ -20,7 +20,6 @@ public class Purse {
 	 * when the purse is created and cannot be changed.
 	 */
 	private final int capacity;
-	private static final int hundred = 100;
 	/**
 	 * sort by the greatest values to smallest.
 	 */
