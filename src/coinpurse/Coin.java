@@ -6,35 +6,20 @@ package coinpurse;
  * 
  * @author Totsapon menkul.
  */
-public class Coin implements  Valuable {
-	public static final String DEFAULT_CURRENCY = "Baht";
-	/** Value of the coin. */
-	private final double value;
-	/** The currency, of course. */
-	private final String currency;
+public class Coin extends AbstractValuable {
 
-	/**
-	 * A coin with given value using the default currency.
-	 * 
-	 * @param value
-	 *            is amount of input money.
-	 */
+	/** Value of the coin. */
+	private double value;
+	/** The currency, of course. */
+	private String currency;
+
 	public Coin(double value) {
-		this.value = value;
-		this.currency = DEFAULT_CURRENCY;
+		super(value);
 	}
 
-	/**
-	 * A coin with given value and currency.
-	 * 
-	 * @param value
-	 *            is amount of input money.
-	 * @param currency
-	 *            is currency of money.
-	 */
 	public Coin(double value, String currency) {
-		this.value = value;
-		this.currency = currency;
+		super(value, currency);
+
 	}
 
 	/**
@@ -53,26 +38,6 @@ public class Coin implements  Valuable {
 	 */
 	public String getCurrency() {
 		return this.currency;
-	}
-
-	/**
-	 * check coins that have the same value and currency or not.
-	 * 
-	 * @param obj
-	 *            is a coin to check.
-	 * 
-	 * @return True if other object has the same value and currency, False if
-	 *         it's not.
-	 * 
-	 */
-	public boolean equals(Object obj) {
-		if (obj == null)
-			return false;
-		if (this.getClass() != obj.getClass())
-			return false;
-		Coin other = (Coin) (obj);
-		return this.value == other.value && this.currency.equals(other.currency);
-
 	}
 
 	/**
