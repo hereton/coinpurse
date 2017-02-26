@@ -8,14 +8,9 @@ package coinpurse;
  *
  */
 public class BankNote extends AbstractValuable {
-	/** add serial number by 1 when added BankNote. */
-	public static long nextSerialNumber = 1000000;
-	/** value of BankNote */
-	private double value;
-	/** currency of BankNote */
-	private String currency;
-	/** serial number of BankNote */
-	private long serialNumber;
+
+	/** serial number of the BankNote. */
+	public long serialNumber;
 
 	/**
 	 * A BankNote with given value using the default currency.
@@ -24,9 +19,9 @@ public class BankNote extends AbstractValuable {
 	 *            is amount of input money.
 	 */
 	public BankNote(double value) {
-		super(value);
-		this.serialNumber = nextSerialNumber;
-		BankNote.nextSerialNumber += 1;
+		super(value, DEFAULT_CURRENCY);
+		setSerialNumber(MoneyFactory.nextSerialNumber);
+		MoneyFactory.nextSerialNumber += 1;
 	}
 
 	/**
@@ -37,10 +32,10 @@ public class BankNote extends AbstractValuable {
 	 * @param currency
 	 *            is currency of money.
 	 */
-	public BankNote(double value, String currency) {
+	public BankNote(double value, String currency, Long serialNumber) {
 		super(value, currency);
-		this.serialNumber = nextSerialNumber;
-		BankNote.nextSerialNumber += 1;
+		setSerialNumber(MoneyFactory.nextSerialNumber);
+		MoneyFactory.nextSerialNumber += 1;
 	}
 
 	/**
@@ -50,7 +45,7 @@ public class BankNote extends AbstractValuable {
 	 */
 	@Override
 	public double getValue() {
-		return this.value;
+		return super.value;
 	}
 
 	/**
@@ -60,7 +55,7 @@ public class BankNote extends AbstractValuable {
 	 */
 	@Override
 	public String getCurrency() {
-		return this.currency;
+		return super.currency;
 	}
 
 	/**
@@ -72,13 +67,17 @@ public class BankNote extends AbstractValuable {
 		return this.serialNumber;
 	}
 
+	public void setSerialNumber(long serialNumber) {
+		this.serialNumber = serialNumber;
+	}
+
 	/**
 	 * return a String explanation of coin
 	 * 
 	 * @return String value and currency of coin.
 	 */
 	public String toString() {
-		return this.value + "-" + this.currency + " note [" + this.serialNumber + "]";
+		return super.value + "-" + super.currency + " note [" + this.serialNumber + "]";
 	}
 
 }

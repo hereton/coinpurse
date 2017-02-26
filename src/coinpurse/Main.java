@@ -16,11 +16,12 @@ public class Main {
 	 *            not used
 	 */
 	public static void main(String[] args) {
+		MoneyFactory.setMoneyFactory(new ThaiMoneyFactory());
 		// 1. create a Purse
 		// Purse is the shared object.
 		Purse purse = new Purse(CAPACITY);
 		// 2. create a ConsoleDialog with a reference to the Purse object
-		ConsoleDialog ui = new ConsoleDialog(purse);
+		ConsoleDialog ui = new ConsoleDialog(purse, "thailand");
 		// 3. run the ConsoleDialog
 		ui.run();
 	}

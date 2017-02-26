@@ -8,15 +8,24 @@ package coinpurse;
  */
 public class Coin extends AbstractValuable {
 
-	/** Value of the coin. */
-	private double value;
-	/** The currency, of course. */
-	private String currency;
-
+	/**
+	 * A coin with given value using the default currency.
+	 * 
+	 * @param value
+	 *            is the value of the coin
+	 */
 	public Coin(double value) {
 		super(value);
 	}
 
+	/**
+	 * A coin with given value and currency.
+	 * 
+	 * @param value
+	 *            is the value of coin
+	 * @param currency
+	 *            is the currency of coin
+	 */
 	public Coin(double value, String currency) {
 		super(value, currency);
 
@@ -28,7 +37,7 @@ public class Coin extends AbstractValuable {
 	 * @return amount of money.
 	 */
 	public double getValue() {
-		return this.value;
+		return super.value;
 	}
 
 	/**
@@ -37,7 +46,7 @@ public class Coin extends AbstractValuable {
 	 * @return Currency of money.
 	 */
 	public String getCurrency() {
-		return this.currency;
+		return super.currency;
 	}
 
 	/**
@@ -46,7 +55,19 @@ public class Coin extends AbstractValuable {
 	 * @return String value and currency of coin.
 	 */
 	public String toString() {
-		return this.value + " " + this.currency;
+		String cur = super.getCurrency();
+		if ("Ringgit".equalsIgnoreCase(cur)) {
+			if (super.getValue() <= 0.5) {
+				cur = "Sen";
+				return super.value * 100 + " " + cur;
+			}
+		}
+		if ("Baht".equals(cur)) {
+			if (super.getValue() <= 0.5) {
+				cur = "Satang";
+				return super.value * 100 + " " + cur;
+			}
+		}
+		return super.value + " " + cur;
 	}
-
 }
