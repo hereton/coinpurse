@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Observable;
+
+import coinpurse.strategy.*;
 
 /**
  * A coin purse contains coins. You can insert coins, withdraw money, check the
@@ -12,9 +15,14 @@ import java.util.List;
  * 
  * @author Totsapon Menkul.
  */
-public class Purse {
+public class Purse extends Observable {
+
 	/** Collection of objects in the purse. */
 	private List<Valuable> money = new ArrayList<>();
+
+	/** Create Strategy Withdraw */
+	private WithdrawStrategy strategy;
+
 	/**
 	 * Capacity is maximum number of coins the purse can hold. Capacity is set
 	 * when the purse is created and cannot be changed.
@@ -23,7 +31,7 @@ public class Purse {
 	/**
 	 * sort by the greatest values to smallest.
 	 */
-	private Comparator<Valuable> compareMostValue = new Comparator<Valuable>() {
+	public Comparator<Valuable> compareMostValue = new Comparator<Valuable>() {
 		@Override
 		public int compare(Valuable o1, Valuable o2) {
 			return (int) Math.signum(o2.getValue() - o1.getValue());
@@ -38,6 +46,18 @@ public class Purse {
 	 */
 	public Purse(int capacity) {
 		this.capacity = capacity;
+		this.strategy = new RecursiveWithdraw();
+	}
+
+	/**
+	 * Set strategy for withdraw method.
+	 * 
+	 * @param newStrategy
+	 *            now there are GreedyWithdarw and RecusiveWothdraw for
+	 *            strategy.
+	 */
+	public void setStrategy(WithdrawStrategy newStrategy) {
+		this.strategy = newStrategy;
 	}
 
 	/**
@@ -61,7 +81,6 @@ public class Purse {
 			balance = balance + value.getValue();
 		}
 		return balance;
-
 	}
 
 	/**
@@ -97,6 +116,8 @@ public class Purse {
 		if (!isFull()) {
 			money.add(value);
 			Collections.sort(this.money, compareMostValue);
+			setChanged();
+			notifyObservers();
 			return true;
 		}
 		return false;
@@ -113,25 +134,20 @@ public class Purse {
 	 *         withdraw requested amount.
 	 */
 	public Valuable[] withdraw(double amount) {
-		List<Valuable> templist = new ArrayList<>();
-		for (Valuable value : money) {
-			if (amount >= value.getValue()) {
-
-				amount -= value.getValue();
-				templist.add(value);
-
-			}
-		}
-		if (amount == 0) {
+		Collections.reverse(money);
+		Valuable[] withdraw;
+		List<Valuable> templist = this.strategy.withdraw(amount, this.money);
+		if (templist != null) {
+			withdraw = new Valuable[templist.size()];
 			for (Valuable value : templist) {
-				this.money.remove(value);
+				money.remove(value);
 			}
-			Valuable[] withdraw = new Valuable[templist.size()];
 			templist.toArray(withdraw);
+			setChanged();
+			notifyObservers();
 			return withdraw;
 		}
 		return null;
-
 	}
 
 	/**

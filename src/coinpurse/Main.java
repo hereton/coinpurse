@@ -1,5 +1,8 @@
 package coinpurse;
 
+import observer.BalanceObserver;
+import observer.PurseStatusObserver;
+
 /**
  * A main class to create objects and connect objects together. The user
  * interface needs a reference to coin purse.
@@ -16,13 +19,15 @@ public class Main {
 	 *            not used
 	 */
 	public static void main(String[] args) {
+
 		MoneyFactory.setMoneyFactory(new ThaiMoneyFactory());
-		// 1. create a Purse
-		// Purse is the shared object.
 		Purse purse = new Purse(CAPACITY);
-		// 2. create a ConsoleDialog with a reference to the Purse object
+		BalanceObserver bo = new BalanceObserver();
+		PurseStatusObserver po = new PurseStatusObserver();
+		purse.addObserver(po);
+		purse.addObserver(bo);
 		ConsoleDialog ui = new ConsoleDialog(purse, "thailand");
-		// 3. run the ConsoleDialog
 		ui.run();
+
 	}
 }

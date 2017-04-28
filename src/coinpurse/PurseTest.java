@@ -1,7 +1,6 @@
 package coinpurse;
 
 import static org.junit.Assert.*;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -123,7 +122,7 @@ public class PurseTest {
 		System.out.println(wd1);
 		assertEquals(amount1, sumValue(wd1), TOL);
 		assertEquals(amount2, purse.getBalance(), TOL);
-		Valuable[] wd2 = purse.withdraw(amount2);
+		// Valuable[] wd2 = purse.withdraw(amount2);
 		assertEquals(0, purse.getBalance(), TOL);
 	}
 
