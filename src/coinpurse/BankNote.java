@@ -38,6 +38,13 @@ public class BankNote extends AbstractValuable {
 		MoneyFactory.nextSerialNumber += 1;
 	}
 
+	public BankNote(double value, String currency) {
+		super(value, currency);
+		setSerialNumber(MoneyFactory.nextSerialNumber);
+		MoneyFactory.nextSerialNumber += 1;
+
+	}
+
 	/**
 	 * get amount of money(value)
 	 * 

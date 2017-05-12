@@ -1,6 +1,8 @@
 package coinpurse;
 
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Some Coin utility methods for practice using Lists and Comparator.
@@ -18,15 +20,17 @@ public class CoinUtil {
 	 * @return a new List containing only the elements from coinlist that have
 	 *         the requested currency.
 	 */
-	public static List<Valuable> filterByCurrency(final List<Valuable> coinlist, String currency) {
-		List<Valuable> filteredCoin = new ArrayList<>();
-		for (Valuable pick : coinlist) {
-			if (pick.getCurrency().equals(currency)) {
-				filteredCoin.add(pick);
-			}
-		}
+	public static <E extends Valuable> List<E> filterByCurrency(final List<E> coinlist, String currency) {
+		Predicate<E> currenza = (e) -> (e.getCurrency().equalsIgnoreCase(currency));
+		return coinlist.stream().filter(currenza).collect(Collectors.toList());
 
-		return filteredCoin; //
+		// for (E pick : coinlist) {
+		// if (pick.getCurrency().equals(currency)) {
+		// filteredCoin.add(pick);
+		// }
+		// }
+		//
+		// return filteredCoin; //
 	}
 
 	/**
@@ -41,7 +45,7 @@ public class CoinUtil {
 	 *            by currency. 2. Create a comparator instance and use it to
 	 *            sort the coins.
 	 */
-	public static void sortByCurrency(List<Valuable> values) {
+	public static void sortByCurrency(List<? extends Valuable> values) {
 
 		Collections.sort(values, new Comparator<Valuable>() {
 			@Override
@@ -78,31 +82,43 @@ public class CoinUtil {
 	 *            not used
 	 */
 	public static void main(String[] args) {
-		String currency = "Rupee";
-		System.out.println("Filter coins by currency of " + currency);
-		List<Valuable> coins = makeInternationalCoins();
-		int size = coins.size();
-		System.out.print(" INPUT: ");
-		printList(coins, " ");
-		List<Valuable> rupees = filterByCurrency(coins, currency);
-		System.out.print("RESULT: ");
-		printList(rupees, " ");
-		if (coins.size() != size)
-			System.out.println("Error: you changed the original list.");
+		 String currency = "Rupee";
+		 System.out.println("Filter coins by currency of " + currency);
+		 List<Valuable> coins = makeInternationalCoins();
+		 int size = coins.size();
+		 System.out.print(" INPUT: ");
+		 printList(coins, " ");
+		 List<Valuable> rupees = filterByCurrency(coins, currency);
+		 System.out.print("RESULT: ");
+		 printList(rupees, " ");
+		 if (coins.size() != size)
+		 System.out.println("Error: you changed the original list.");
+		
+		 System.out.println("\nSort coins by currency");
+		 coins = makeInternationalCoins();
+		 System.out.print(" INPUT: ");
+		 printList(coins, " ");
+		 sortByCurrency(coins);
+		 System.out.print("RESULT: ");
+		 printList(coins, " ");
+		
+		 System.out.println("\nSum coins by currency");
+		 coins = makeInternationalCoins();
+		 System.out.print("coins= ");
+		 printList(coins, " ");
+		 sumByCurrency(coins);
 
-		System.out.println("\nSort coins by currency");
-		coins = makeInternationalCoins();
-		System.out.print(" INPUT: ");
-		printList(coins, " ");
-		sortByCurrency(coins);
-		System.out.print("RESULT: ");
-		printList(coins, " ");
+		Coin m = CoinUtil.max(new Coin(5), new Coin(10));
+		System.out.println("MAx is " + m);
+		int s = CoinUtil.max(9, 4);
+		System.out.println("Max is " + s);
+		Coin c1 = new Coin(10);
+		Coin c2 = new Coin(20);
+		Coin c3 = new Coin(100);
+		BankNote b1 = new BankNote(100, "Baht");
+		BankNote b2 = new BankNote(500);
 
-		System.out.println("\nSum coins by currency");
-		coins = makeInternationalCoins();
-		System.out.print("coins= ");
-		printList(coins, " ");
-		sumByCurrency(coins);
+		System.out.println(max(c1, c2, c3, b1, b2));
 
 	}
 
@@ -135,5 +151,16 @@ public class CoinUtil {
 
 		}
 		System.out.println(); // end the line
+	}
+
+	public static <E extends Comparable<? super E>> E max(E... value) {
+		E maxValue = value[0];
+		for (int i = 0; i < value.length; i++) {
+			if (value[i].compareTo(maxValue) > 0) {
+				maxValue = value[i];
+			}
+		}
+		return maxValue;
+
 	}
 }
